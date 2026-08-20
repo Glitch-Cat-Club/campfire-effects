@@ -1,0 +1,377 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-width: 360px;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #000000;
+  color: #fff;
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+}
+
+.gold {
+  color: #c8a84e;
+}
+
+.dim {
+  color: #555;
+}
+
+/* ─── One fixed screen, everything left, grid free on the right ─── */
+.frame {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.layout {
+  position: absolute;
+  inset: 0;
+  /* Fixed anchor — the column never re-centres, so nothing ever jumps */
+  padding: max(24px, calc(50vh - 310px)) 30px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 18px;
+  overflow: hidden;
+}
+
+.layout > * {
+  pointer-events: auto;
+}
+
+/* ─── Page header — typography, no box ─── */
+.pagehead {
+  width: min(500px, 100%);
+  padding: 2px 2px 0;
+}
+
+.pagehead h1 {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  color: #fff;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  /* fixed line box — no fallback glyph can grow it */
+  height: 34px;
+  line-height: 34px;
+}
+
+/* Every terminal row keeps one fixed-height line, whatever glyphs pass through */
+.tl-row {
+  height: 1.9em;
+  overflow: hidden;
+}
+
+.grid-hotzone {
+  position: absolute;
+  left: calc(79vw - 16.5vmin);
+  top: calc(42vh - 16.5vmin);
+  width: 33vmin;
+  height: 33vmin;
+  cursor: pointer;
+}
+
+.ph-meta {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.ph-line {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #888;
+}
+
+/* ─── Process flow: box → arrow → code box ─── */
+.flow {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  min-height: 0;
+  flex-wrap: wrap;
+}
+
+.flow-arrow {
+  color: #2a2a2a;
+  font-size: 20px;
+  line-height: 1;
+  /* pinned — never re-centres against changing heights */
+  align-self: flex-start;
+  margin-top: 12px;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.flow-arrow.on {
+  color: #c8a84e;
+}
+
+.slot-empty {
+  color: #555;
+  font-size: 12px;
+  line-height: 1.9;
+  padding: 14px 4px;
+}
+
+/* ─── Tabs ─── */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 10px;
+  user-select: none;
+}
+
+.tab {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #999;
+}
+
+.tab.active {
+  color: #c8a84e;
+}
+
+/* ─── Rows — clinical, aligned, arrow on the right edge ─── */
+.fx-name {
+  color: #555;
+  min-width: 158px;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.fx-name.lit {
+  color: #c8a84e;
+}
+
+.fx-live {
+  color: #eee;
+  /* scramble glyphs can render wide — never let a row grow a second line */
+  white-space: nowrap;
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+
+.fx-dim {
+  color: #888;
+}
+
+.row-space {
+  flex: 1;
+}
+
+.arrow-btn {
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #666;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  align-self: center;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.arrow-btn:hover {
+  border-color: #c8a84e;
+  color: #c8a84e;
+}
+
+.arrow-btn.active {
+  border-color: #c8a84e;
+  color: #000;
+  background: #c8a84e;
+}
+
+/* ─── The code box ─── */
+.usage {
+  font-size: 12px;
+  color: #c8a84e;
+  background: rgba(200, 168, 78, 0.06);
+  border-left: 2px solid rgba(200, 168, 78, 0.4);
+  padding: 6px 10px;
+  margin-bottom: 6px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+}
+
+.code-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #555;
+  background: #101010;
+  border: 1px solid #222;
+  border-bottom: none;
+  padding: 6px 10px;
+}
+
+.code-head .needs {
+  color: #3d3d3d;
+}
+
+.copy-btn {
+  background: transparent;
+  border: 1px solid #333;
+  color: #888;
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.copy-btn:hover {
+  border-color: #c8a84e;
+  color: #c8a84e;
+}
+
+.code {
+  font-family: inherit;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #aaa;
+  background: #0d0d0d;
+  border: 1px solid #222;
+  padding: 10px 12px;
+  max-height: 50vh;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+
+/* ─── have_fun_with_glyphs — one compact strip ─── */
+.glyphs-module {
+  position: relative;
+  margin-top: auto;
+  width: min(560px, 100%);
+  border: 1px solid #222;
+  background: rgba(8, 8, 8, 0.85);
+  padding: 12px 16px 10px;
+}
+
+/* Docked: centred directly beneath the grid.
+   left/top come inline from App.tsx — the same object that drives the canvas,
+   so the strip always tracks its grid. */
+.glyphs-module.docked {
+  position: absolute;
+  margin: 0;
+  width: max-content;
+  max-width: none;
+  transform: translateX(-50%);
+  transition: left 0.45s ease, top 0.45s ease;
+}
+
+/* Tighter screens: drop the label so the strip stays one clean row */
+@media (max-width: 1599px) {
+  .glyphs-module.docked .gm-name {
+    display: none;
+  }
+  .glyphs-module.docked .btn {
+    font-size: 11px;
+    padding: 7px 12px;
+  }
+}
+
+.glyphs-module.docked .gm-row {
+  flex-wrap: nowrap;
+}
+
+.gm-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.gm-name {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: #fff;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.btn {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid #333;
+  color: #888;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.btn:hover {
+  border-color: #666;
+  color: #fff;
+}
+
+.btn.active {
+  border-color: #c8a84e;
+  color: #c8a84e;
+}
+
+.gm-hint {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: #444;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ─── Small demos inside rows ─── */
+.corner-demo {
+  position: relative;
+  display: inline-block;
+  padding: 2px 14px;
+}
+
+.tok-chips {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tok-chip {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #222;
+  display: inline-block;
+}
