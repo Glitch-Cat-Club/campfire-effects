@@ -4,11 +4,9 @@ The design system from the_campfire, a site I built and then retired. The fun pa
 
 ![campfire_effects, ring formation with the code open](screenshot.png)
 
-**Have a play:** https://glitch-cat-club.github.io/campfire-effects/
+**Have a play:** clone it, `npm install`, then `npm run dev`.
 
 Click the small ▸ next to anything and its source opens beside it, ready to copy into your own project. Everything liftable lives in `src/kit/` and is self-contained. The grid notices your mouse, and the buttons underneath reshape it: scatter, cluster, ring, campfire.
-
-To run it locally: `npm install`, then `npm run dev`.
 
 MIT, so do what you like with it. A mention is nice, never required.
 
