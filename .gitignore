@@ -2,3 +2,9 @@ node_modules/
 dist/
 *.tsbuildinfo
 .env*
+
+# --- Glitch publish boundary (added by workspace-git) ---
+.planning/
+STATE.md
+CLAUDE.md
+AGENTS.md
